@@ -1,0 +1,49 @@
+// Schéma cible — non branché pour la maquette.
+// npx prisma init && renseigner DATABASE_URL, puis implémenter PrismaReservationStore.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Vehicle {
+  id           String        @id
+  slug         String        @unique
+  brand        String
+  model        String
+  pricePerDay  Int
+  available    Boolean       @default(true)
+  reservations Reservation[]
+}
+
+model Reservation {
+  id                    String   @id @default(uuid())
+  vehicle               Vehicle  @relation(fields: [vehicleId], references: [id])
+  vehicleId             String
+  startDate             DateTime @db.Date
+  endDate               DateTime @db.Date
+  pickupLocation        String
+  customAddress         String?
+  customerFirstName     String
+  customerLastName      String
+  customerEmail         String
+  customerPhone         String
+  licenseNumber         String
+  licenseCountry        String
+  totalAmount           Decimal  @db.Decimal(10, 2)
+  depositRate           Decimal  @db.Decimal(4, 3)
+  depositAmount         Decimal  @db.Decimal(10, 2)
+  remainingBalance      Decimal  @db.Decimal(10, 2)
+  status                String
+  stripeSessionId       String?  @unique
+  stripePaymentIntentId String?
+  expiresAt             DateTime?
+  createdAt             DateTime @default(now())
+  confirmedAt           DateTime?
+
+  @@index([vehicleId, startDate, endDate, status])
+}

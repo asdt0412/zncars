@@ -1,0 +1,93 @@
+[
+  {
+    "id": "seed-cla45-demo",
+    "vehicleId": "mercedes-cla-45",
+    "startDate": "2026-09-18",
+    "endDate": "2026-09-20",
+    "pickupLocation": "airport",
+    "customer": {
+      "firstName": "Léa",
+      "lastName": "Martin",
+      "email": "lea.martin@example.com",
+      "phone": "06 12 34 56 78",
+      "licenseNumber": "12AB34567",
+      "licenseCountry": "France"
+    },
+    "totalAmount": 1260,
+    "depositRate": 0.3,
+    "depositAmount": 378,
+    "remainingBalance": 882,
+    "status": "confirmed",
+    "createdAt": "2026-09-01T10:00:00.000Z",
+    "confirmedAt": "2026-09-01T10:02:00.000Z"
+  },
+  {
+    "id": "a07327be-441a-4cd4-a62a-ff388ca23cab",
+    "vehicleId": "bmw-m3",
+    "startDate": "2026-09-12",
+    "endDate": "2026-09-14",
+    "pickupLocation": "airport",
+    "customAddress": "",
+    "customer": {
+      "firstName": "Julien",
+      "lastName": "Moreau",
+      "email": "julien.moreau@example.com",
+      "phone": "06 18 42 90 11",
+      "licenseNumber": "AB1234567",
+      "licenseCountry": "France"
+    },
+    "totalAmount": 900,
+    "depositRate": 0.3,
+    "depositAmount": 270,
+    "remainingBalance": 630,
+    "status": "confirmed",
+    "createdAt": "2026-09-05T16:53:48.014Z",
+    "confirmedAt": "2026-09-05T16:53:48.019Z"
+  },
+  {
+    "id": "e6fad197-6255-4da0-b76d-cca6e9e247fe",
+    "vehicleId": "bmw-m3",
+    "startDate": "2026-09-23",
+    "endDate": "2026-09-27",
+    "pickupLocation": "airport",
+    "customAddress": "",
+    "customer": {
+      "firstName": "ANGELO",
+      "lastName": "SEIDITA DOS SANTOS",
+      "email": "angelo.dossantos422@gmail.com",
+      "phone": "+33766910119",
+      "licenseNumber": "12458568757",
+      "licenseCountry": "France"
+    },
+    "totalAmount": 1800,
+    "depositRate": 0.3,
+    "depositAmount": 540,
+    "remainingBalance": 1260,
+    "status": "confirmed",
+    "createdAt": "2026-09-05T16:58:38.781Z",
+    "confirmedAt": "2026-09-05T16:58:38.788Z"
+  },
+  {
+    "id": "21f0ce9f-e391-4e95-ab50-a3f603d30425",
+    "vehicleId": "bmw-m5",
+    "startDate": "2026-09-24",
+    "endDate": "2026-09-30",
+    "pickupLocation": "airport",
+    "customAddress": "",
+    "customer": {
+      "firstName": "ANGELO",
+      "lastName": "SEIDITA DOS SANTOS",
+      "email": "angelo.dossantos422@gmail.com",
+      "phone": "+33766910119",
+      "licenseNumber": "5852115",
+      "licenseCountry": "France"
+    },
+    "totalAmount": 3720,
+    "depositRate": 0.3,
+    "depositAmount": 1116,
+    "remainingBalance": 2604,
+    "status": "confirmed",
+    "createdAt": "2026-09-05T17:40:30.603Z",
+    "confirmedAt": "2026-09-05T17:40:30.609Z"
+  }
+]
