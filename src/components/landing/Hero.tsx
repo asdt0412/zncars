@@ -7,7 +7,22 @@ import { Button } from "@/components/ui/button";
 import { SearchBar } from "@/components/landing/SearchBar";
 import { siteConfig } from "@/lib/config";
 
-const HERO_VIDEO = "/hero-3.mp4";
+const HERO_VIDEO = "/hero-3.mp4?v=ios1";
+
+function unlockHeroVideo(video: HTMLVideoElement) {
+  video.defaultMuted = true;
+  video.muted = true;
+  video.volume = 0;
+  video.autoplay = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.controls = false;
+  video.setAttribute("muted", "");
+  video.setAttribute("autoplay", "");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "true");
+  video.setAttribute("x5-playsinline", "true");
+}
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
@@ -17,33 +32,31 @@ export function Hero() {
     const video = videoRef.current;
     if (!video) return;
 
-    video.defaultMuted = true;
-    video.muted = true;
-    video.playsInline = true;
-    video.setAttribute("playsinline", "");
-    video.setAttribute("webkit-playsinline", "");
+    unlockHeroVideo(video);
 
     const play = () => {
-      video.muted = true;
+      unlockHeroVideo(video);
       void video.play().catch(() => undefined);
     };
 
     play();
+    video.addEventListener("loadedmetadata", play);
     video.addEventListener("loadeddata", play);
     video.addEventListener("canplay", play);
-    video.addEventListener("canplaythrough", play);
     document.addEventListener("visibilitychange", play);
     window.addEventListener("pageshow", play);
-    window.addEventListener("touchstart", play, { passive: true, once: true });
-    window.addEventListener("pointerdown", play, { once: true });
+    window.addEventListener("touchstart", play, { passive: true });
+    window.addEventListener("touchend", play, { passive: true });
+    window.addEventListener("pointerdown", play);
 
     return () => {
+      video.removeEventListener("loadedmetadata", play);
       video.removeEventListener("loadeddata", play);
       video.removeEventListener("canplay", play);
-      video.removeEventListener("canplaythrough", play);
       document.removeEventListener("visibilitychange", play);
       window.removeEventListener("pageshow", play);
       window.removeEventListener("touchstart", play);
+      window.removeEventListener("touchend", play);
       window.removeEventListener("pointerdown", play);
     };
   }, []);
@@ -60,13 +73,12 @@ export function Hero() {
           loop
           playsInline
           preload="auto"
-          disablePictureInPicture
-          disableRemotePlayback
           controls={false}
+          disablePictureInPicture
           aria-label="Porsche ZN Cars Lyon"
           {...{ "webkit-playsinline": "true", "x5-playsinline": "true" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/30 to-ink" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/30 to-ink" />
         <div className="grain-overlay animate-grain" />
       </div>
 
