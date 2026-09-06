@@ -1,45 +1,53 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "@/components/landing/SearchBar";
 import { siteConfig } from "@/lib/config";
 
-const HERO_POSTER =
-  "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2400&q=80";
+const HERO_VIDEO = "/hero-3.mp4";
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+
+    if (reduceMotion) {
+      video.pause();
+      video.currentTime = 0;
+      return;
+    }
+
+    const play = () => {
+      void video.play().catch(() => undefined);
+    };
+
+    play();
+    video.addEventListener("canplay", play);
+    return () => video.removeEventListener("canplay", play);
+  }, [reduceMotion]);
 
   return (
     <section className="relative min-h-dvh">
       <div className="absolute inset-0 overflow-hidden bg-ink">
-        {reduceMotion ? (
-          <div
-            className="h-full w-full"
-            style={{
-              backgroundImage: `url(${HERO_POSTER})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-            role="img"
-            aria-label="Porsche ZN Cars Lyon"
-          />
-        ) : (
-          <video
-            className="absolute left-1/2 top-1/2 h-full w-full min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 object-cover object-center"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster={HERO_POSTER}
-            aria-label="Porsche ZN Cars Lyon"
-          >
-            <source src="/hero-3.mp4" type="video/mp4" />
-          </video>
-        )}
+        <video
+          ref={videoRef}
+          className="absolute left-1/2 top-1/2 h-full w-full min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 object-cover object-center"
+          src={HERO_VIDEO}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-label="Porsche ZN Cars Lyon"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/30 to-ink" />
         <div className="grain-overlay animate-grain" />
       </div>
