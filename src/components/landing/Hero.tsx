@@ -17,22 +17,36 @@ export function Hero() {
     const video = videoRef.current;
     if (!video) return;
 
+    video.defaultMuted = true;
     video.muted = true;
-
-    if (reduceMotion) {
-      video.pause();
-      video.currentTime = 0;
-      return;
-    }
+    video.playsInline = true;
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "");
 
     const play = () => {
+      video.muted = true;
       void video.play().catch(() => undefined);
     };
 
     play();
+    video.addEventListener("loadeddata", play);
     video.addEventListener("canplay", play);
-    return () => video.removeEventListener("canplay", play);
-  }, [reduceMotion]);
+    video.addEventListener("canplaythrough", play);
+    document.addEventListener("visibilitychange", play);
+    window.addEventListener("pageshow", play);
+    window.addEventListener("touchstart", play, { passive: true, once: true });
+    window.addEventListener("pointerdown", play, { once: true });
+
+    return () => {
+      video.removeEventListener("loadeddata", play);
+      video.removeEventListener("canplay", play);
+      video.removeEventListener("canplaythrough", play);
+      document.removeEventListener("visibilitychange", play);
+      window.removeEventListener("pageshow", play);
+      window.removeEventListener("touchstart", play);
+      window.removeEventListener("pointerdown", play);
+    };
+  }, []);
 
   return (
     <section className="relative min-h-dvh">
@@ -46,7 +60,11 @@ export function Hero() {
           loop
           playsInline
           preload="auto"
+          disablePictureInPicture
+          disableRemotePlayback
+          controls={false}
           aria-label="Porsche ZN Cars Lyon"
+          {...{ "webkit-playsinline": "true", "x5-playsinline": "true" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/30 to-ink" />
         <div className="grain-overlay animate-grain" />
